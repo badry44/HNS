@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p th:text="'Hello, ' + ${session.nameSession}" ></p>
+    <p th:text ="${added}"></p>
+     <form action="User/AddStore" method = "post" >
+         Add Store :  <input type="submit" value="AddStore">
+    </form>
+    <table>
+  <tbody>
+    <tr th:each="StoresInUser1 : ${StoresInUser}">
+      <td> StoreName : </td>
+      <td><a th:href ="@{'../User/ShowStat/' + ${StoresInUser1.storeId}}" th:text="${StoresInUser1.storeName}"></a> &nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

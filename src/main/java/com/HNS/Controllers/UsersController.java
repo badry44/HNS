@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.HNS.Entity.User;
-import com.HNS.Entity.products;
+import com.HNS.Entity.*;
 import com.HNS.Entity.stores;
 import com.HNS.Repositories.UserRepositories;
 import com.HNS.Repositories.productsRepositories;
@@ -26,6 +25,13 @@ private UserRepositories repo;
 	
 	@Autowired
 	private storesRepositories storeRepo;
+	@Autowired 
+	private productsRepositories productRepo;
+	Iterable <products> ShowProducts()
+	{
+		Iterable <products> AllProducts = productRepo.findAll();
+		return AllProducts;
+	}
    @RequestMapping("/")
    public String index() {
       return "index";
@@ -83,6 +89,7 @@ public String Register(Model model)
 				   Vector<stores> st= new Vector<stores>();
 				   if (us.getUserType()==1)
 				   {
+					   model.addAttribute("products",ShowProducts());
 				   Returned = "greeting";
 				   st = storeRepo.findByStoreOwnerAndStoreState(us.getId(), 2);
 				   
@@ -94,12 +101,14 @@ public String Register(Model model)
 					   model.addAttribute("added"," ");
 				   }
 				   model.addAttribute("StoresInUser",st);
-				   session.setAttribute("nameSession", user.getUserName());
-				   session.setAttribute("UserIdSession", user.getId());
-				   
+				  
+				   session.setAttribute("nameSession", us.getUserName());
+				   session.setAttribute("UserIdSession", us.getId());
 				   break;
 			   }
+			   
 		   }
+		   
 		   model.addAttribute("Warrning", Warrning);
 		   return Returned;
 		   

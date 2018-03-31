@@ -7,7 +7,7 @@
 <body>
     <p th:text="'Hello, ' + ${session.nameSession}" ></p>
     <p th:text ="${added}"></p>
-     <form action="User/AddStore" method = "post" >
+     <form action="../User/AddStore" method = "post" >
          Add Store :  <input type="submit" value="AddStore">
     </form>
     <table>
@@ -18,5 +18,10 @@
     </tr>
   </tbody>
 </table>
+<form action="../User/ShowProducts" >
+         Show Products :  <input type="submit" value="ShowProdcts">
+    </form>
+
+</form>
 </body>
 </html>

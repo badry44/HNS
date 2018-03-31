@@ -32,6 +32,8 @@ public class adminController {
 		stores ss =storeRepo.findByStoreId(id);	
 		ss.setStoreState(2);
 		storeRepo.save(ss);
+		 Vector<stores>st = storeRepo.findByStoreState(1);
+		   model.addAttribute("StoresInUser",st);
 		return "greetingAdmin";
 	}
 	
@@ -39,6 +41,8 @@ public class adminController {
 	   public String SayHelloAdmin(@ModelAttribute products product, Model model) {
 	   
 		   ProRepo.save(product);
+		   Vector<stores>st = storeRepo.findByStoreState(1);
+		   model.addAttribute("StoresInUser",st);
 		   model.addAttribute("added","The product has been added Successfully");
 	      return "greetingAdmin";
 	   }
@@ -53,7 +57,8 @@ public class adminController {
 	   	{
 	   		Brands.add(brand1);
 	   	}
-	   	model.addAttribute(Brands);
+	   	System.out.println(Brands.get(0).getBrandName());
+	   	model.addAttribute("Brands",Brands);
 	   	return "AddProduct";
 	   }
 	   @PostMapping("/AddBrand")
@@ -67,6 +72,8 @@ public class adminController {
 	   
 		   brandRepo.save(brand);
 		   model.addAttribute("added","The Brand has been added Successfully");
+		   Vector<stores>st = storeRepo.findByStoreState(1);
+		   model.addAttribute("StoresInUser",st);
 	      return "greetingAdmin";
 	   }
 	   

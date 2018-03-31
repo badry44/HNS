@@ -1,5 +1,7 @@
 package com.HNS.Controllers;
 
+import java.util.Vector;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.HNS.Entity.orderEn;
+import com.HNS.Entity.products;
 import com.HNS.Entity.stat;
 import com.HNS.Entity.stores;
+import com.HNS.Repositories.orderRepositories;
+import com.HNS.Repositories.productsRepositories;
 import com.HNS.Repositories.statRepositories;
 import com.HNS.Repositories.storesRepositories;
 
@@ -24,6 +30,10 @@ public class NormalUserController {
 	storesRepositories storeRepo;
 	@Autowired
 	statRepositories statRepo;
+	@Autowired
+	productsRepositories prodRepo ;
+	@Autowired
+	orderRepositories orderRepo ;
 	@PostMapping("/AddStore")
 	public String AddStore(Model model)
 	{
@@ -33,32 +43,87 @@ public class NormalUserController {
 		return "Addstore";
 	}
 	
-	@PostMapping("AddStore/Waitting")
+	@PostMapping("/greeting")
 	 public String AddStoreWait(@ModelAttribute stores store1, Model model,HttpSession session) {
+		System.out.println("Done !"+session.getAttribute("UserIdSession").toString());
 		String ID=session.getAttribute("UserIdSession").toString();
 		Integer UserId = Integer.parseInt(ID);
 		store1.setStoreOwner(UserId);
 		store1.setStoreState(1);
-		System.out.println(ID);
+		
+		
 		storeRepo.save(store1);
+		stat StoreStates = new stat(store1.getStoreId(),0,0);
+		statRepo.save(StoreStates);
 		   model.addAttribute("added","The Store has been added Successfully and waiting for admin Accept");
+		   
 	      return "greeting";
 	   }
 	@GetMapping("ShowStat/{id}")
-	public String AcceputStore(@PathVariable("id") String StoreId,Model model )
+	public String ShowStat(@PathVariable("id") String StoreId,Model model )
 	{
 		int id = Integer.parseInt(StoreId);
 		stores ss = storeRepo.findByStoreId(id);
 		
 		stat s = statRepo.findByStoreId(id);
 		model.addAttribute("StoreName",ss.getStoreName());
-		System.out.println(ss.getStoreName());
 		model.addAttribute("views" ,s.getNumberOfViews());
-		System.out.println(s.getNumberOfViews());
 		model.addAttribute("buy" ,s.getNumberOfUserBuy());
-		System.out.println(s.getNumberOfUserBuy());
 		return "ShowStat";
 	}
+	@GetMapping("/ShowProducts")
+	public String ShowProducts(Model model)
+	{
+		Vector<products> AllProducts = prodRepo.findAll();
+		model.addAttribute("products",AllProducts);
+		
+		return "ShowProducts";
+	}
+	@GetMapping("Buy/{id}")
+	public String BuyProducts(@PathVariable("id") String ProductId,Model model ,HttpSession session)
+	{
+		int id = Integer.parseInt(ProductId);
+		String warning ="";
+		orderEn Getorder = new orderEn();
+		session.setAttribute("ProductIdSession", id);
+		model.addAttribute("order",Getorder);
+		model.addAttribute("warning",warning);
+		
+		return "Buy";
+	}
+	@PostMapping("/BuyDone")
+	public String BuyDone (@ModelAttribute orderEn order1, Model model,HttpSession session)
+	{
+		String ID=session.getAttribute("UserIdSession").toString();
+		Integer UserId = Integer.parseInt(ID);
+		order1.setUserId(UserId);
+		String ProductID=session.getAttribute("ProductIdSession").toString();
+		Integer ProID = Integer.parseInt(ProductID);
+		
+		order1.setProductId(ProID);
+		int ProductId = order1.getProductId();
+		products CurrentProd=prodRepo.findByProductId(ProductId);
+		if (order1.getAmounts()>CurrentProd.getProductCount())
+		{
+			
+			String warning = "The Current Product hasn't the amounts that u want";
+			model.addAttribute("order",order1);
+			model.addAttribute("warning",warning);
+			System.out.println(CurrentProd.getProductCount());
+			return "Buy";
+		}
+		else
+		{
+			orderRepo.save(order1);
+			CurrentProd.setProductCount(CurrentProd.getProductCount()-order1.getAmounts());
+			prodRepo.save(CurrentProd);
+			return "BuyDone";
+		}
+		
+		
+	}
+
+	
 	
 
 }

@@ -20,6 +20,13 @@ public class products {
 		this.productPrice = productPrice;
 		this.productCount = productCount;
 	}
+	public products(String productName, float productPrice, int productCount,int productBrand) {
+		super();
+		this.prdouctName = productName;
+		this.productPrice = productPrice;
+		this.productCount = productCount;
+		this.productBrand = productBrand;
+	}
 	
 	public products()
 	{

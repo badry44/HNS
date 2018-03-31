@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p th:text="'Hello, ' + ${session.nameSession}" ></p>   
+    <table>
+  <tbody>
+    <tr th:each="ProductsInSystem : ${products}">
+      <td> <pre>Product Name  :  </pre></td>
+      
+      <td><p th:text="${ProductsInSystem.getPrdouctName()}" /></td>
+      <td><pre>    </pre><td>
+     <td><pre> Available product :  </pre></td> 
+     <td><p th:text = "${ProductsInSystem.getProductCount()}+'   '"/></td>
+     <td><pre>    </pre><td>
+      <td><a th:href ="@{'/User/Buy/'+${ProductsInSystem.getProductId()}}" th:text="Buy"></a> &nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

@@ -7,7 +7,7 @@
 <body>
 <!--     <p th:text="'Hello, ' + ${name} + '!'" /> -->
 
-<form action="#" th:action="@{../greetingAdmin}" th:object="${product}" method="post">
+<form action="#" th:action="@{../../../greetingAdmin}" th:object="${product}" method="post">
       <table>
         <tr>
           <td>Product Name : </td>
@@ -26,7 +26,9 @@
           <td>Product Brand : </td>
           <td>
           <select th:field="*{productBrand}">
-          <option th:each="foo : ${brands}" th:value="${foo.brandId}" th:text="${foo.brandName}"></option>
+           <option th:each="br : ${Brands}"
+                            th:value="${br.brandId}"
+                            th:utext="${br.brandName}"/>
           </select>
           </td>
         </tr>

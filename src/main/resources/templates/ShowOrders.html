@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products In Store</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/TableDesign.css">
+</head>
+<body>
+ <table id = "TableCss">
+
+  <tbody>
+  	<tr>
+  		<th>Product Name </th>
+  		<th> available quantity  </th>
+  		<th> Added By  </th>
+  		<th> Undo</th>
+  	</tr>
+    <tr th:each="order : ${orders}" >
+      <td><p th:text="${order.productName}"/></td>
+      <td><p th:text = "${order.amounts}+'   '"/></td>
+      <td><p th:text = "${order.shippingAddress}+'   '"/></td>
+      <td><a th:href ="@{'../unDoDone/'+${order.orderId}}" th:text="Undo"></a> &nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+
+
+</body>
+</html>

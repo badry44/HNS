@@ -15,12 +15,25 @@ public class orderEn {
 	   @GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer orderId;
 	private String shippingAddress;
-	public orderEn(String shippingAddress, int amounts, Integer userId, Integer productId) {
+	private String productName;
+	private int  amounts;
+	private Integer userId;
+	private Integer productId;
+	private Integer storeId;
+	public Integer getStoreId() {
+		return storeId;
+	}
+	public void setStoreId(Integer storeId) {
+		this.storeId = storeId;
+	}
+	public orderEn(String shippingAddress, int amounts, Integer userId, Integer productId,String productName, Integer storeId) {
 		super();
 		this.shippingAddress = shippingAddress;
 		this.amounts = amounts;
 		this.userId = userId;
 		this.productId = productId;
+		this.productName = productName;
+		this.storeId = storeId;
 	}
 	public orderEn() {
 		super();
@@ -28,10 +41,16 @@ public class orderEn {
 		this.amounts = 0;
 		this.userId = 0;
 		this.productId = 0;
+		this.productName="";
+		this.storeId = 0;
 	}
-	private int  amounts;
-	private Integer userId;
-	private Integer productId;
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	
 	public Integer getOrderId() {
 		return orderId;
 	}

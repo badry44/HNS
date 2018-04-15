@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.HNS.Entity.*;
+import com.HNS.Entity.User;
+import com.HNS.Entity.collaborators;
+import com.HNS.Entity.products;
 import com.HNS.Entity.stores;
 import com.HNS.Repositories.UserRepositories;
+import com.HNS.Repositories.collaboratorsRepositories;
 import com.HNS.Repositories.productsRepositories;
 import com.HNS.Repositories.storesRepositories;
 
@@ -27,6 +30,8 @@ private UserRepositories repo;
 	private storesRepositories storeRepo;
 	@Autowired 
 	private productsRepositories productRepo;
+	@Autowired
+	private collaboratorsRepositories collaboratorRepo;
 	Iterable <products> ShowProducts()
 	{
 		Iterable <products> AllProducts = productRepo.findAll();
@@ -44,7 +49,7 @@ public String Login(Model model)
 	   model.addAttribute("Warrning",Warrning);
 	return "Login";
 }
-   @PostMapping("/Register")
+   @GetMapping("/Register")
 public String Register(Model model)
 {
 	   model.addAttribute("user",new User());
@@ -89,18 +94,38 @@ public String Register(Model model)
 				   Vector<stores> st= new Vector<stores>();
 				   if (us.getUserType()==1)
 				   {
-					   model.addAttribute("products",ShowProducts());
-				   Returned = "greeting";
-				   st = storeRepo.findByStoreOwnerAndStoreState(us.getId(), 2);
-				   
+						   model.addAttribute("products",ShowProducts());
+					   Returned = "greeting";
+					   st = storeRepo.findByStoreOwnerAndStoreState(us.getId(), 2);
+					   
+					   //Get not onwed Stores
+					   
+					   Vector<collaborators> StoresNotOwned = collaboratorRepo.findByColloaboratorUserId(us.getId());
+					  
+					  
+					   Vector<stores> NotOwnStores = new Vector<stores>();
+					   if (!StoresNotOwned.isEmpty())
+					   {
+						   
+
+						   for (int i =0;i<StoresNotOwned.size();i++)
+						   {
+							   stores store = storeRepo.findByStoreId(StoresNotOwned.get(i).getStoreId());
+							   NotOwnStores.add(store);
+							   
+						   }
+					   }
+					   model.addAttribute("NotOwnStores",NotOwnStores);
 				   }
 				   else
 				   {
 					   st = storeRepo.findByStoreState(1);
 					   Returned = "greetingAdmin";
 					   model.addAttribute("added"," ");
+					   
 				   }
 				   model.addAttribute("StoresInUser",st);
+				   
 				  
 				   session.setAttribute("nameSession", us.getUserName());
 				   session.setAttribute("UserIdSession", us.getId());

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+ <form action="../ShowStat" method = "post" >
+         <input type="submit" value="Show Store Status">
+    </form>
+    <form action="../ProductsToStore" method = "post" >
+         <input type="submit" value="Add Orders To Store">
+    </form>
+	<form action="../AddCollaborator" method = "post" >
+         <input type="submit" value="Add Collaborator">
+    </form>
+    <form action="../ShowStoreProducts" method = "post" >
+         <input type="submit" value="Show All Store Products">
+         
+    </form>
+     <div th:switch="${UserType}"> 
+
+ <form  th:case="'owner'" action="../ShowOrders" method = "post" >
+         <input type="submit" value="Show all Order Happened in the Store">  
+    </form>
+</div>
+</body>
+</html>

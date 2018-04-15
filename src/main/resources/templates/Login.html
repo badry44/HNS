@@ -2,11 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Getting Started: Serving Web Content</title>
+    <link rel="stylesheet" type="text/css" href="css/header.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body>
+<body class = "LoginController">
+<div class="header">
+  <a href="#" class="logo">HNS</a>
+  <div class="header-right">
+    <!-- <a class="active" href="#home">Sign up</a> -->
+    <a href="Login">Login </a>
+    <a class = "active"  href="Register">Sign up</a>
+  </div>
+</div> 
 <!--     <p th:text="'Hello, ' + ${name} + '!'" /> -->
-    
+    <center><div class = "LoginDiv">
      <form action="#" th:action="@{/greetingLogin}" th:object="${user}" method="post">
        <table>
         <tr>
@@ -22,6 +32,8 @@
         	<td><input type="submit" value="Submit"></td>
         </tr>
       </table>
+      </div>
+      </center>
       
 </body>
 </html>

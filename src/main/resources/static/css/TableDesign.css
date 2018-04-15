@@ -1,0 +1,41 @@
+#TableCss {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#TableCss td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#TableCss tr:nth-child(even){background-color: #f2f2f2;}
+
+#TableCss tr:hover {background-color: #ddd;}
+
+#TableCss th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #7FFFD4;
+    color: white;
+}
+ a.active {
+  background-color: dodgerblue;
+  color: white;
+}
+ a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px; 
+  line-height: 25px;
+  border-radius: 4px;
+  background-color: green;
+}
+a:hover {
+  background-color: #7CFC00;
+  /* color: black; */
+}

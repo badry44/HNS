@@ -59,22 +59,28 @@ public class NormalUserController {
 		   
 	      return "greeting";
 	   }
-	@GetMapping("ShowStat/{id}")
-	public String ShowStat(@PathVariable("id") String StoreId,Model model )
-	{
-		int id = Integer.parseInt(StoreId);
-		stores ss = storeRepo.findByStoreId(id);
-		
-		stat s = statRepo.findByStoreId(id);
-		model.addAttribute("StoreName",ss.getStoreName());
-		model.addAttribute("views" ,s.getNumberOfViews());
-		model.addAttribute("buy" ,s.getNumberOfUserBuy());
-		return "ShowStat";
-	}
+	
 	@GetMapping("/ShowProducts")
-	public String ShowProducts(Model model)
+	public String ShowProducts(Model model,HttpSession session)
 	{
 		Vector<products> AllProducts = prodRepo.findAll();
+		
+		//Updating Price
+		String ID=session.getAttribute("UserIdSession").toString();
+		Integer UserId = Integer.parseInt(ID);
+		
+		double priceUpdateing = 1-IsStoreOwner(UserId)-IsFirstTime(UserId);
+		System.out.println("Done");
+		for (int i =0;i<AllProducts.size();i++)
+		{
+			double currentPrice = AllProducts.get(i).getProductPrice();
+			int CurrentProductId = AllProducts.get(i).getProductId();
+			double UpdatedPrice = priceUpdateing-IsSecondTimeTOBuy(UserId,CurrentProductId);
+			AllProducts.get(i).setProductPrice(currentPrice*UpdatedPrice);
+			System.out.println(UpdatedPrice);
+			int presnt = (int) ((1-UpdatedPrice)*100);
+			AllProducts.get(i).setNumberOfBuyers(presnt);
+		}
 		model.addAttribute("products",AllProducts);
 		
 		return "ShowProducts";
@@ -83,9 +89,11 @@ public class NormalUserController {
 	public String BuyProducts(@PathVariable("id") String ProductId,Model model ,HttpSession session)
 	{
 		int id = Integer.parseInt(ProductId);
+		String ProductName = prodRepo.findByProductId(id).getPrdouctName();
 		String warning ="";
 		orderEn Getorder = new orderEn();
 		session.setAttribute("ProductIdSession", id);
+		session.setAttribute("ProductNameSession", ProductName);
 		model.addAttribute("order",Getorder);
 		model.addAttribute("warning",warning);
 		
@@ -101,6 +109,8 @@ public class NormalUserController {
 		Integer ProID = Integer.parseInt(ProductID);
 		
 		order1.setProductId(ProID);
+		String ProductName = session.getAttribute("ProductNameSession").toString();
+		order1.setProductName(ProductName);
 		int ProductId = order1.getProductId();
 		products CurrentProd=prodRepo.findByProductId(ProductId);
 		if (order1.getAmounts()>CurrentProd.getProductCount())
@@ -114,6 +124,11 @@ public class NormalUserController {
 		}
 		else
 		{
+			products SavedProduct=prodRepo.findByProductId(ProID);
+			int NumberOfBuyers = SavedProduct.getNumberOfBuyers()+1;
+			SavedProduct.setNumberOfBuyers(NumberOfBuyers);
+			order1.setStoreId(0);
+			prodRepo.save(SavedProduct);
 			orderRepo.save(order1);
 			CurrentProd.setProductCount(CurrentProd.getProductCount()-order1.getAmounts());
 			prodRepo.save(CurrentProd);
@@ -122,7 +137,31 @@ public class NormalUserController {
 		
 		
 	}
-
+	public double IsStoreOwner(int userId)
+	{
+		System.out.println(userId);
+		Vector <stores> Store = storeRepo.findByStoreOwner(userId);
+		if (Store.isEmpty())
+			{return 0;}
+		else
+			return 0.15;
+	}
+	public double IsSecondTimeTOBuy(int userId,int productId)
+	{
+		Vector<orderEn> orders = orderRepo.findByUserIdAndProductId(userId,productId);
+		if (orders.isEmpty())
+			return 0;
+		else
+			return 0.1;
+	}
+	public double IsFirstTime(int userId)
+	{
+		Vector<orderEn> orders =orderRepo.findByUserId(userId);
+		if (orders.isEmpty())
+			return 0.05;
+		else
+			return 0;
+	}
 	
 	
 

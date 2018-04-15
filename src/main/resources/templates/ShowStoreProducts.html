@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products In Store</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../css/TableDesign.css">
+</head>
+<body>
+ <table id = "TableCss">
+
+  <tbody>
+  	<tr>
+  		<th>Product Name </th>
+  		<th> available quantity  </th>
+  	</tr>
+    <tr th:each="product : ${storeProducts}" >
+      <td><p th:text="${product.productName}"/></td>
+      <td><p th:text = "${product.productCount}+'   '"/></td>
+    </tr>
+  </tbody>
+</table>
+
+
+</body>
+</html>

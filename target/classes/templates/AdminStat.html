@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Statistics </title>
+    <link rel="stylesheet" type="text/css" href="css/header.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+
+   
+    <form action="AllProductsStat" >
+         <input type="submit" value="Show All Product Statistacs">
+    </form>
+    <p th:text ="'Number of users in the System  '+${NumberOfUsers}"></p>
+ <p th:text ="'Number Of products in the System  '+${NumberOfProducts}"></p>
+  <p th:text ="'Products Avgrage  '+${ProductAvg}"></p>
+  <p th:text ="'Maximum product name  '+${MaxProductName}+' Price '+${MaxProductPrice}"></p>
+  <p th:text ="'Minmum product name  '+${MinProductName}+' Price '+${MinProductPrice}"></p>
+ 
+</body>
+</html>

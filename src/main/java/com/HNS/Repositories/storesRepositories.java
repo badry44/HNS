@@ -12,7 +12,7 @@ public interface storesRepositories extends CrudRepository<stores, Integer>{
 	Vector <stores> findByStoreOwnerAndStoreState(int StoreOwner,int stat);
 	Vector <stores> findByStoreState(int state);
 	stores findByStoreId(Integer id);
-
+	Vector <stores> findByStoreOwner(int userId);
 
 /*@Modifying(clearAutomatically = true)
 @Query("update stores u set u.storeState = 2 where u.storeId= ?1")

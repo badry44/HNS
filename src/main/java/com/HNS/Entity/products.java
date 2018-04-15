@@ -10,22 +10,31 @@ public class products {
 	private Integer productId;
 	private String prdouctName;
 	private String productCat;
-	private float productPrice;
+	private double productPrice;
 	private int productCount;
 	private int productBrand;
+	private int numberOfBuyers;
 	
-	public products(String productName, float productPrice, int productCount) {
+	public int getNumberOfBuyers() {
+		return numberOfBuyers;
+	}
+	public void setNumberOfBuyers(int numberOfBuyers) {
+		this.numberOfBuyers = numberOfBuyers;
+	}
+	public products(String productName, double productPrice, int productCount) {
 		super();
 		this.prdouctName = productName;
 		this.productPrice = productPrice;
 		this.productCount = productCount;
+		numberOfBuyers=0;
 	}
-	public products(String productName, float productPrice, int productCount,int productBrand) {
+	public products(String productName, double productPrice, int productCount,int productBrand) {
 		super();
 		this.prdouctName = productName;
 		this.productPrice = productPrice;
 		this.productCount = productCount;
 		this.productBrand = productBrand;
+		numberOfBuyers=0;
 	}
 	
 	public products()
@@ -33,8 +42,9 @@ public class products {
 		this.prdouctName = "";
 		this.productPrice = 0;
 		this.productCount = 0;
+		numberOfBuyers=0;
 	}
-	public products(Integer productId, String prdouctName, String productCat, float productPrice, int productCount,
+	public products(Integer productId, String prdouctName, String productCat, double productPrice, int productCount,
 			int productBrand) {
 		super();
 		this.productId = productId;
@@ -43,6 +53,7 @@ public class products {
 		this.productPrice = productPrice;
 		this.productCount = productCount;
 		this.productBrand = productBrand;
+		numberOfBuyers=0;
 	}
 
 	public Integer getProductId() {
@@ -63,10 +74,10 @@ public class products {
 	public void setProductCat(String productCat) {
 		this.productCat = productCat;
 	}
-	public float getProductPrice() {
+	public double getProductPrice() {
 		return productPrice;
 	}
-	public void setProductPrice(float productPrice) {
+	public void setProductPrice(double productPrice) {
 		this.productPrice = productPrice;
 	}
 	public int getProductCount() {

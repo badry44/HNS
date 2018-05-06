@@ -3,11 +3,21 @@
 <head>
     <title>Add Product</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/header.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body>
+<center>
+<body class= "LoginController">
+<!--     <p th:text="'Hello, ' + ${name} + '!'" /> -->
+<div class="header">
+  <a href="#" class="logo normal">HNS</a>
+  <div class="header-right">
+    <a class = "active" th:text="${session.nameSession}"  href="#"></a>
+  </div>
+</div> 
 <!--     <p th:text="'Hello, ' + ${name} + '!'" /> -->
 
-<form action="#" th:action="@{../../../greetingAdmin}" th:object="${product}" method="post">
+<form action="#" th:action="@{../../../greetingAdmin}" th:object="${product}" method="post" style = "margin-top : 3%;">
       <table>
         <tr>
           <td>Product Name : </td>
@@ -38,4 +48,5 @@
       </table>
     </form>
 </body>
+</center>
 </html>

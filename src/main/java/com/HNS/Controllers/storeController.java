@@ -47,9 +47,7 @@ public class storeController {
 	{
 		int id = Integer.parseInt(StoreId);
 		session.setAttribute("CurrentStoreIdSession", id);
-		
 		// Check who is Owner
-		
 		int UserId = Integer.parseInt(session.getAttribute("UserIdSession").toString());
 		
 		if (UserId==storeRepo.findByStoreId(id).getStoreOwner())
@@ -64,13 +62,11 @@ public class storeController {
 	{
 		String StoreId =session.getAttribute("CurrentStoreIdSession").toString(); 
 		int id = Integer.parseInt(StoreId);
-		stores ss = storeRepo.findByStoreId(id);
-		
-		stat s = statRepo.findByStoreId(id);
-		
-		model.addAttribute("StoreName",ss.getStoreName());
-		model.addAttribute("views" ,s.getNumberOfViews());
-		model.addAttribute("buy" ,s.getNumberOfUserBuy());
+		stores storeOwned = storeRepo.findByStoreId(id);
+		stat stat1 = statRepo.findByStoreId(id);
+		model.addAttribute("StoreName",storeOwned.getStoreName());
+		model.addAttribute("views" ,stat1.getNumberOfViews());
+		model.addAttribute("buy" ,stat1.getNumberOfUserBuy());
 		return "ShowStat";
 	}
 	@PostMapping("ProductsToStore")
@@ -80,7 +76,6 @@ public class storeController {
 		Integer UserId = Integer.parseInt(ID);
 		Vector<orderEn> UserOrders = orderRepo.findByUserIdAndStoreId(UserId,0);
 		model.addAttribute("Orders",UserOrders);
-		
 	return "AddProducts";	
 	}
 	@GetMapping("AddDone/{id}")
@@ -92,18 +87,9 @@ public class storeController {
 		String StoreId =session.getAttribute("CurrentStoreIdSession").toString();
 		if (Store==null)
 		{
-			Store = new StoreProducts();
-			
-			Store.setProductCount(order.getAmounts());
-			Store.setProductId(order.getProductId());
-			
-			 
-
-			Store.setStoreId(Integer.parseInt(StoreId));
-			Store.setProductName(order.getProductName());
-			storeProductsRepo.save(Store);
-						//storeProductsRepo
-
+			//storeProductsRepo
+			Store = new StoreProducts(Integer.parseInt(StoreId),order.getProductId(),order.getAmounts(),order.getProductName());
+			storeProductsRepo.save(Store);		
 		}
 		else
 		{
@@ -111,14 +97,11 @@ public class storeController {
 			storeProductsRepo.save(Store);
 		}
 		order.setStoreId(Integer.parseInt(StoreId));
-		orderRepo.save(order);
-		
-		 		
+		orderRepo.save(order);	
 		String ID=session.getAttribute("UserIdSession").toString();
 		Integer UserId = Integer.parseInt(ID);
 		Vector<orderEn> UserOrders = orderRepo.findByUserIdAndStoreId(UserId,0);
 		model.addAttribute("Orders",UserOrders);
-		
 		return "AddProducts";
 	}
 	@PostMapping("/AddCollaborator")
@@ -143,18 +126,11 @@ public class storeController {
 		}
 		else
 		{
-			collaborator.setStoreOwnerId(Integer.parseInt(session.getAttribute("UserIdSession").toString()));
-			collaborator.setColloaboratorUserId(isUser.get(0).getId());
 			int storeId = Integer.parseInt(session.getAttribute("CurrentStoreIdSession").toString());
-			collaborator.setStoreId(storeId);
 			stores store1 = storeRepo.findByStoreId(storeId);
-			collaborator.setStoreId(store1.getStoreId());
-			
-			collRepo.save(collaborator);
-			
+			collaborators addedOne = new collaborators (store1.getStoreId(),Integer.parseInt(session.getAttribute("UserIdSession").toString()),isUser.get(0).getId(),collaborator.getColloabratorUserName());
+			collRepo.save(addedOne);	
 		}
-		
-		
 		return ReturnedView;
 	}
 	@PostMapping("/ShowStoreProducts")
@@ -199,18 +175,8 @@ public class storeController {
 			product.setProductCount(product.getProductCount()-order.getAmounts());
 			storeProductsRepo.save(product);
 		}
-		
-		
 		// Back to Show Orders
-		Vector<orderEn> orders = orderRepo.findByStoreId(storeId);
-		for (int i =0;i<orders.size();i++)
-		{
-			int userId = orders.get(i).getUserId();
-			User user =userRepo.findByIdAndId(userId,userId);
-			orders.get(i).setShippingAddress(user.getUserName());
-		}
-		model.addAttribute("orders",orders);
-		return "ShowOrders";
+		return ShowOrders(model,session);
 	}
 	
 	

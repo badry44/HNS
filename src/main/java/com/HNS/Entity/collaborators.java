@@ -12,10 +12,10 @@ public class collaborators {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer collaboratorsId;
-	private int storeId;
+	private int storeId;//
 	private int storeOwnerId;
-	private int colloaboratorUserId;
-	private String colloabratorUserName;
+	private int colloaboratorUserId;//
+	private String colloabratorUserName;//
 	public collaborators(int storeId, int storeOwnerId, int colloaboratorUserId,
 			String colloabratorUserName) {
 		super();

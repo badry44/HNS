@@ -70,7 +70,6 @@ public class NormalUserController {
 		Integer UserId = Integer.parseInt(ID);
 		
 		double priceUpdateing = 1-IsStoreOwner(UserId)-IsFirstTime(UserId);
-		System.out.println("Done");
 		for (int i =0;i<AllProducts.size();i++)
 		{
 			double currentPrice = AllProducts.get(i).getProductPrice();

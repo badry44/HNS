@@ -6,8 +6,16 @@
     <title>Getting Started: Serving Web Content</title>
     <link rel="stylesheet" type="text/css" href="css/header.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/header.css">
 </head>
 <body>
+<!--     <p th:text="'Hello, ' + ${name} + '!'" /> -->
+<div class="header">
+  <a href="#" class="logo normal">HNS</a>
+  <div class="header-right">
+    <a class = "active" th:text="${session.nameSession}"  href="#"></a>
+  </div>
+</div> 
    <table>
   <tbody>
     <tr th:each="ProductsInSystem : ${All}">
@@ -15,7 +23,7 @@
       
       <td><p th:text="${ProductsInSystem.getPrdouctName()}" /></td>
       <td><pre>    </pre><td>
-     <td><pre> Product Number Of Buyers :  </pre></td> 
+     <td><pre> Product Number Of Buys :  </pre></td> 
      <td><p th:text = "${ProductsInSystem.getNumberOfBuyers()}+'   '"/></td>
     </tr>
   </tbody>

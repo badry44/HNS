@@ -3,10 +3,17 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-     <link rel="stylesheet" type="text/css" href="../css/TableDesign.css">
+     <link rel="stylesheet" type="text/css" href="../../css/TableDesign.css">
+    <link rel="stylesheet" type="text/css" href="../../css/header.css">
 </head>
 <body>
-    <p th:text="'Hello, ' + ${session.nameSession}" ></p>   
+<!--     <p th:text="'Hello, ' + ${name} + '!'" /> -->
+<div class="header">
+  <a href="#" class="logo normal">HNS</a>
+  <div class="header-right">
+    <a class = "active" th:text="${session.nameSession}"  href="#"></a>
+  </div>
+</div> 
     <table id = "TableCss">
   <tbody>
   <tr>

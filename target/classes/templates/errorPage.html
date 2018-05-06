@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px; 
+  line-height: 25px;
+  border-radius: 4px;
+}
+a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+</style>
+    
+</head>
+<body>
+<div class = "cont">
+	<h1 id = "status"></h1>
+	<a href="javascript:history.go(-1);"> Go Back</a>
+</div>
+
+<script>
+    
+    function GetStatus(url)
+    {
+        if (!url) url = window.location.href;
+        var status = url.substr(url.length-3);
+        return status;
+        
+    }
+    var status ="Error "+GetStatus();
+    document.getElementById('status').innerHTML = status;
+    </script>
+</body>
+</html>

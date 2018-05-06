@@ -3,12 +3,21 @@
 <head>
 <title>Getting Started: Serving Web Content</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="../css/TableDesign.css">
+    <link rel="stylesheet" type="text/css" href="../css/header.css">
+    <link rel="stylesheet" type="text/css" href="../css/Buttons.css">
+    
 </head>
 <body>
+<!--     <p th:text="'Hello, ' + ${name} + '!'" /> -->
+<div class="header">
+  <a href="#" class="logo normal">HNS</a>
+  <div class="header-right">
+    <a class = "active" th:text="${session.nameSession}"  href="#"></a>
+  </div>
+</div> 
 	<!--         <p th:text="${session.nameSession}" th:unless="${session == null}">[...]</p> -->
 
-	<p th:text="'Hello, ' + ${session.nameSession} + '(Admin)'"
-		th:unless="${session == null}">[...]</p>
 	<p th:text="${added}" style="color: red;" />
 	<form action="AddProduct" method="post">
 		<input type="submit" value="Add Product">
@@ -20,17 +29,14 @@
 		<input type="submit" value="Statistics">
 	</form>
 	<h3>Waiting To accept Stores</h3>
-	<table>
+	<table id = "TableCss">
 		<tbody th:each="StoresInUser1 : ${StoresInUser}">
+		<th>StoreName</th>
+		<th>Accept</th>
 			<tr>
-				<td>StoreName :</td>
 				<td><a href="#" th:text="${StoresInUser1.storeName}"></a>
 					&nbsp;</td>
 				<td><a th:href="@{'../../greetingAdmin/' + ${StoresInUser1.storeId}}">Accept</a></td>
-			</tr>
-			<tr>
-				<td>StoreOwnerId :</td>
-				<td th:text="${StoresInUser1.storeOwner}">&nbsp;</td>
 			</tr>
 
 		</tbody>

@@ -57,6 +57,13 @@ public class StoreProducts {
 		this.productName = "";
 	}
 	
+	public StoreProducts(int storeId, Integer productId, int productCount, String productName) {
+		super();
+		this.storeId = storeId;
+		this.productId = productId;
+		this.productCount = productCount;
+		this.productName = productName;
+	}
 	public void setProductCount(Integer productCount) {
 		this.productCount = productCount;
 	}
